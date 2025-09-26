@@ -2,7 +2,6 @@ import streamlit as st
 import pickle
 import numpy as np
 import os
-import matplotlib.pyplot as plt
 
 # Load the model
 model_path = os.path.join("assets", "model.pkl")
@@ -25,17 +24,21 @@ age = st.number_input("Age of House (years)", min_value=0, max_value=100, value=
 if st.button("Predict Price"):
     features = np.array([[bedrooms, bathrooms, area, location_score, age]])
     prediction = model.predict(features)
+
+    # Show predicted price
     st.success(f"💰 Estimated Price: ${prediction[0]:,.2f}")
 
-    # # Visualization panel
-    # st.subheader("📊 Input Summary")
-    # labels = ["Bedrooms", "Bathrooms", "Area_sqft", "Location_Score", "Age_years"]
-    # values = [bedrooms, bathrooms, area, location_score, age]
+    # Disclaimer in a styled box
+    st.info("⚠️ These are estimated predictions based on the model. "
+            "Actual market prices may vary due to other factors.")
 
-    # fig, ax = plt.subplots(figsize=(6,4))
-    # ax.bar(labels, values, color="skyblue", edgecolor="black")
-    # ax.set_title("User Inputs Overview")
-    # ax.set_ylabel("Values")
-    # plt.xticks(rotation=30)
-    #
-    # st.pyplot(fig)
+# Footer - always at bottom, centered
+st.markdown(
+    """
+    <br><br><hr>
+    <div style="text-align: center; color: grey; font-size: 14px;">
+        ✅ Developed by <b>Amna Talha</b>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
